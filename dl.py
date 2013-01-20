@@ -76,7 +76,7 @@ for link, title in res:
     start = section.find('<div id="content">')
     end = section.find('<ul class="navigation">')
 
-    html = cleanup_html(section[start:end])
+    html = cleanup_html(section[start:end] + '</div>')
 
     # find and download pictures
     images = img_re.findall(section)
