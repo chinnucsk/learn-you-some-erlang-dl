@@ -61,7 +61,7 @@ else:
     exit(1)
 
 css = fetch_url(pcss)
-open('print.css', 'w').write(css)
+open(os.path.join(BUILDDIR, 'print.css'), 'w').write(css)
 
 toc_section_re = re.compile('<h3><a class="local chapter" href="([^"]+?)">(.+?)</a></h3>')
 img_re = re.compile('<img.+?src="(.+?)".+?(?:title="(.+?)")?.+?>')
