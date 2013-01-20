@@ -61,6 +61,11 @@ else:
     exit(1)
 
 css = fetch_url(pcss)
+css += '''
+body, div#content, p {
+    font-size: 14pt;
+}
+'''
 open(os.path.join(BUILDDIR, 'print.css'), 'w').write(css)
 
 toc_section_re = re.compile('<h3><a class="local chapter" href="([^"]+?)">(.+?)</a></h3>')
