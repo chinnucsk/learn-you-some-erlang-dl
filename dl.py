@@ -73,6 +73,10 @@ div.toc-1 {
 div.toc-2 {
     margin-left: 20pt;
 }
+a[name] {
+    color: black;
+    text-decoration: none;
+}
 '''
 open(os.path.join(BUILDDIR, 'print.css'), 'w').write(css)
 
@@ -117,11 +121,17 @@ for link, title in res:
 
     total_inner += html
 
+cover_html = u'''
+<h1>Learn You some Erang For Great Good</h1>
+<h2>by Fred Hebert</h2>
+'''
+
 res = u'''<html><head>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <title>Learn You some Erang For Great Good — Fred Hebert</title>
 <link rel="stylesheet" type="text/css" href="print.css">
 </head><body>''' + \
+    cover_html + \
     toc_html + \
     total_inner + \
 '''</body></html>'''
