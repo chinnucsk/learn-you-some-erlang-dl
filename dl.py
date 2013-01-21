@@ -1,4 +1,5 @@
 #!/usr/bin/env python2.7
+# coding=utf-8
 
 import os
 import hashlib
@@ -34,11 +35,11 @@ def fetch_url(url):
         data = f.read()
         f.close()
 
-        fp = open(full_cfn, 'w')
+        fp = open(full_cfn, 'wb')
         fp.write(data)
         fp.close()
 
-    data = open(full_cfn).read()
+    data = open(full_cfn, 'rb').read()
     return data
 
 
@@ -47,7 +48,7 @@ noscript_re = re.compile('<div class="noscript"><noscript>.+?</noscript></div>',
 def cleanup_html(h):
     return noscript_re.sub('', h)
 
-total_inner = ''
+total_inner = u''
 
 # first download toc
 toc = fetch_url(BASEURL+'contents')
@@ -76,7 +77,8 @@ res = toc_section_re.findall(toc)
 
 for link, title in res:
     section_name = os.path.basename(link)
-    section = fetch_url(link)
+    section = fetch_url(link).decode('utf-8')
+    
     # find section begin and end positions
     start = section.find('<div id="content">')
     end = section.find('<ul class="navigation">')
@@ -98,10 +100,12 @@ for link, title in res:
 
     total_inner += html
 
-res = '''<html><head>
+res = u'''<html><head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<title>Learn You some Erang For Greater Good — Fred Hebert</title>
 <link rel="stylesheet" type="text/css" href="print.css">
 </head><body>''' +\
     total_inner +\
 '''</body></html>'''
 
-open(os.path.join(BUILDDIR, 'index.html'), 'w').write(res)
+open(os.path.join(BUILDDIR, 'index.html'), 'wb').write(res.encode('utf-8'))
