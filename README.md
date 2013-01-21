@@ -13,4 +13,3 @@ to the directory `build`, file named `learn-you-some-erlang.pdf`)
 
     make pdf
 
-Unfortunately, pdf created by this command does not contain embedded fonts.
