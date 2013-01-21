@@ -62,7 +62,7 @@ else:
     print 'no print css'
     exit(1)
 
-css = fetch_url(pcss)
+css = fetch_url(pcss).replace('border-top: 1px solid #930;', '')
 css += '''
 body, div#content, p {
     font-size: 14pt;
@@ -114,7 +114,7 @@ for link, title in res:
 
     html = section_re.sub(lambda mo: '<h2><a name="{0}">{1}</a></h2>'.format(section_name, mo.group(1)), html)
 
-    total_inner += html
+    total_inner += html + '&#012;'
 
 res = u'''<html><head>
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
