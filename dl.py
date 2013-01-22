@@ -9,6 +9,7 @@ from pprint import pprint as pp
 from sys import exit
 
 BASEURL = 'http://learnyousomeerlang.com/'
+BASEURL_RE = BASEURL.replace('.', '\\.')
 CWD = os.path.dirname(os.path.abspath(__file__))
 CACHEDIR = os.path.join(CWD, '.cache')
 BUILDDIR = os.path.join(CWD, 'build')
@@ -77,6 +78,10 @@ a[name] {
     color: black;
     text-decoration: none;
 }
+pre {
+    white-space: pre-wrap !important;
+    overflow: auto;
+}
 '''
 open(os.path.join(BUILDDIR, 'print.css'), 'w').write(css)
 
@@ -85,7 +90,8 @@ section_re = re.compile('<h2>(.+?)</h2>')
 subsection_re = re.compile('<h3><a.+?name="(.+?)">(.+?)</a></h3>')
 img_re = re.compile('<img.+?src="(.+?)".+?(?:title="(.+?)")?.+?>')
 aname_re = re.compile('<a.+?name="(.+?)">')
-alink_re = re.compile(BASEURL.replace('.', '\\.')+'(.+?)#(.+?)"')
+alink_re = re.compile(BASEURL_RE+'(.+?)#(.+?)"')
+href_re = re.compile('href="{}([a-z-]+)"'.format(BASEURL_RE))
 res = toc_section_re.findall(toc)
 
 for link, title in res:
@@ -118,6 +124,7 @@ for link, title in res:
         toc_html += u'<div class="toc-2"><a href="#{}">{}</a></div>\n'.format(a, b)
 
     html = section_re.sub(lambda mo: '<h2><a name="{0}">{1}</a></h2>'.format(section_name, mo.group(1)), html)
+    html = href_re.sub(lambda mo: 'href="#{0}"'.format(mo.group(1)), html)
 
     total_inner += html
 
